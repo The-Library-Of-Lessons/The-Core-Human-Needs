@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Core Human Needs — A Biblical Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&family=EB+Garamond:ital@0;1&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg:        #0B0E14;
+  --surface:   #12161F;
+  --card:      #191E2A;
+  --card-hover:#1F2638;
+  --border:    #252C3F;
+  --gold:      #D4A843;
+  --gold-dim:  #8F6E28;
+  --amber:     #E07A45;
+  --blue:      #6EB5D8;
+  --green:     #6BBF95;
+  --rose:      #D46B8B;
+  --purple:    #9B7EC8;
+  --text:      #EDE8E0;
+  --muted:     #8A8480;
+  --sidebar-w: 260px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; line-height: 1.7; overflow-x: hidden; }
+a { color: var(--gold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+
+/* TOPBAR */
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0; height: 60px;
+  background: rgba(11,14,20,0.94); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1.5rem; z-index: 200;
+}
+.topbar-brand { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--gold); letter-spacing: .04em; }
+.topbar-brand span { color: var(--text); font-style: italic; font-size: .88rem; margin-left: .4rem; }
+#search-wrap { position: relative; }
+#search-input {
+  background: var(--card); border: 1px solid var(--border); color: var(--text);
+  padding: .42rem 2.2rem .42rem .9rem; border-radius: 20px; font-size: .84rem;
+  width: 210px; outline: none; transition: border-color .2s, width .3s;
+}
+#search-input:focus { border-color: var(--gold); width: 270px; }
+#search-input::placeholder { color: var(--muted); }
+.search-icon { position: absolute; right: .65rem; top: 50%; transform: translateY(-50%); color: var(--muted); font-size: .82rem; pointer-events: none; }
+#search-results {
+  position: absolute; top: calc(100% + 8px); right: 0; width: 300px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  max-height: 340px; overflow-y: auto; display: none; z-index: 300;
+  box-shadow: 0 12px 40px rgba(0,0,0,.55);
+}
+.sr-item { padding: .6rem 1rem; cursor: pointer; font-size: .84rem; border-bottom: 1px solid var(--border); }
+.sr-item:last-child { border-bottom: none; }
+.sr-item:hover { background: var(--card-hover); }
+.sr-item strong { color: var(--gold); display: block; font-size: .78rem; }
+#hamburger { display: none; background: none; border: none; color: var(--text); font-size: 1.4rem; cursor: pointer; padding: .3rem; }
+
+/* PROGRESS */
+#progress { position: fixed; top: 60px; left: 0; height: 3px; background: linear-gradient(90deg, var(--gold), var(--amber)); width: 0%; z-index: 199; transition: width .1s; }
+
+/* LAYOUT */
+#layout { display: flex; padding-top: 60px; min-height: 100vh; }
+
+/* SIDEBAR */
+#sidebar {
+  position: fixed; top: 60px; left: 0; width: var(--sidebar-w); height: calc(100vh - 60px);
+  background: var(--surface); border-right: 1px solid var(--border);
+  overflow-y: auto; padding: 1.2rem 0; z-index: 150; transition: transform .3s;
+}
+.sidebar-title { font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: .5rem 1.2rem .3rem; }
+.sidebar-link {
+  display: block; padding: .48rem 1.2rem; font-size: .83rem; color: var(--text);
+  border-left: 3px solid transparent; transition: all .2s; line-height: 1.4;
+}
+.sidebar-link:hover { background: rgba(212,168,67,.08); border-left-color: var(--gold-dim); color: var(--gold); text-decoration: none; }
+.sidebar-link.active { background: rgba(212,168,67,.13); border-left-color: var(--gold); color: var(--gold); font-weight: 500; }
+.sidebar-sep { height: 1px; background: var(--border); margin: .6rem 1.2rem; }
+
+/* MAIN */
+#main { margin-left: var(--sidebar-w); flex: 1; padding: 0 2.5rem 6rem; max-width: 900px; }
+
+/* HERO */
+#hero {
+  padding: 5rem 0 4rem;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,168,67,.09) 0%, transparent 70%);
+  text-align: center; border-bottom: 1px solid var(--border);
+}
+.hero-eyebrow { font-size: .74rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+.hero-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.2rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.2rem; }
+.hero-title em { color: var(--gold); font-style: italic; }
+.hero-sub { font-size: 1rem; color: var(--muted); max-width: 600px; margin: 0 auto 2rem; }
+.summary-pill {
+  display: inline-block; background: rgba(212,168,67,.11); border: 1px solid var(--gold-dim);
+  padding: .8rem 1.6rem; border-radius: 30px; font-size: .92rem; color: var(--text);
+  font-family: 'EB Garamond', serif; font-style: italic; max-width: 700px;
+}
+
+/* SECTIONS */
+.section { padding: 3.8rem 0; border-bottom: 1px solid var(--border); }
+.section:last-of-type { border-bottom: none; }
+.sec-eyebrow { font-size: .69rem; letter-spacing: .18em; text-transform: uppercase; color: var(--gold); margin-bottom: .4rem; }
+.sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem,3vw,1.95rem); font-weight: 700; margin-bottom: .9rem; line-height: 1.2; }
+.sec-intro { font-size: .97rem; color: var(--muted); margin-bottom: 2rem; max-width: 680px; line-height: 1.85; }
+
+/* VERSE CARDS */
+.verse-card {
+  position: relative; background: var(--card); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1.3rem 1.5rem; margin: 1.4rem 0; overflow: hidden;
+}
+.verse-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--amber), transparent);
+}
+.verse-card .quote-mark { font-family: 'Playfair Display', serif; font-size: 3.8rem; color: var(--gold); opacity: .17; line-height: 1; float: left; margin: -.4rem .5rem 0 -.2rem; }
+.verse-text { font-family: 'EB Garamond', serif; font-size: 1.1rem; font-style: italic; color: var(--text); line-height: 1.7; }
+.verse-ref { font-size: .76rem; color: var(--gold); margin-top: .5rem; font-weight: 500; letter-spacing: .04em; }
+
+/* ═══ ACCORDION NEED CARDS ═══ */
+.accordion-grid { display: flex; flex-direction: column; gap: .9rem; margin: 1.8rem 0; }
+
+.acc-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; transition: border-color .25s;
+}
+.acc-card.open { border-color: var(--gold-dim); box-shadow: 0 6px 28px rgba(0,0,0,.35); }
+
+.acc-header {
+  display: flex; align-items: center; gap: 1rem; padding: 1.2rem 1.5rem;
+  cursor: pointer; transition: background .2s; user-select: none;
+}
+.acc-header:hover { background: var(--card-hover); }
+.acc-icon { font-size: 1.8rem; flex-shrink: 0; }
+.acc-header-text { flex: 1; }
+.acc-header-text h3 { font-family: 'Playfair Display', serif; font-size: 1.08rem; font-weight: 700; color: var(--gold); }
+.acc-header-text p { font-size: .83rem; color: var(--muted); margin-top: .15rem; line-height: 1.4; }
+.acc-tag { font-size: .7rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; padding: .22rem .65rem; border-radius: 10px; background: rgba(212,168,67,.12); color: var(--gold); border: 1px solid rgba(212,168,67,.22); flex-shrink: 0; }
+.acc-chevron { color: var(--muted); font-size: .95rem; transition: transform .3s; flex-shrink: 0; }
+.acc-card.open .acc-chevron { transform: rotate(180deg); color: var(--gold); }
+
+.acc-body { display: none; padding: 0 1.5rem 1.5rem; border-top: 1px solid var(--border); }
+.acc-card.open .acc-body { display: block; }
+.acc-body .verse-card { margin-top: 1.2rem; }
+
+/* TOPIC BLOCKS */
+.topic-block { margin: 1.3rem 0; }
+.topic-label {
+  display: inline-flex; align-items: center; gap: .4rem; font-size: .7rem;
+  font-weight: 600; letter-spacing: .11em; text-transform: uppercase;
+  padding: .28rem .75rem; border-radius: 20px; margin-bottom: .75rem;
+}
+.tl-green  { background: rgba(107,191,149,.11); color: var(--green); border: 1px solid rgba(107,191,149,.24); }
+.tl-gold   { background: rgba(212,168,67,.11);  color: var(--gold);  border: 1px solid rgba(212,168,67,.24);  }
+.tl-red    { background: rgba(212,80,80,.11);   color: #E07070;      border: 1px solid rgba(212,80,80,.24);   }
+.tl-blue   { background: rgba(110,181,216,.11); color: var(--blue);  border: 1px solid rgba(110,181,216,.24); }
+.tl-amber  { background: rgba(224,122,69,.11);  color: var(--amber); border: 1px solid rgba(224,122,69,.24);  }
+.tl-purple { background: rgba(155,126,200,.11); color: var(--purple);border: 1px solid rgba(155,126,200,.24); }
+.tl-rose   { background: rgba(212,107,139,.11); color: var(--rose);  border: 1px solid rgba(212,107,139,.24); }
+.topic-block p { font-size: .92rem; color: var(--muted); line-height: 1.8; }
+
+/* LISTS */
+.styled-list { list-style: none; padding: 0; margin: .7rem 0; }
+.styled-list li { display: flex; gap: .7rem; align-items: flex-start; font-size: .89rem; color: var(--muted); margin-bottom: .5rem; line-height: 1.6; }
+.styled-list li::before { content: attr(data-icon); font-size: 1rem; flex-shrink: 0; margin-top: .05rem; }
+
+/* ═══ REFLECTION BLOCK ═══ */
+.reflection-block {
+  background: linear-gradient(135deg, rgba(107,191,149,.07) 0%, rgba(110,181,216,.06) 100%);
+  border: 1px solid rgba(107,191,149,.2); border-radius: 12px;
+  padding: 1.25rem 1.5rem; margin-top: 1.5rem;
+}
+.reflection-block h4 {
+  font-family: 'Playfair Display', serif; font-size: .95rem; font-weight: 700;
+  color: var(--green); margin-bottom: .9rem; display: flex; align-items: center; gap: .5rem;
+}
+.reflection-q {
+  background: rgba(255,255,255,.03); border-radius: 8px; padding: .85rem 1rem;
+  font-size: .88rem; color: var(--text); font-style: italic; margin-bottom: .9rem;
+  border-left: 3px solid var(--blue); line-height: 1.65;
+}
+.action-step {
+  display: flex; gap: .8rem; align-items: flex-start;
+  background: rgba(212,168,67,.07); border-radius: 8px;
+  padding: .85rem 1rem; font-size: .88rem; color: var(--text); line-height: 1.65;
+}
+.action-step .as-label { color: var(--gold); font-weight: 600; font-size: .75rem; letter-spacing: .08em; text-transform: uppercase; flex-shrink: 0; margin-top: .15rem; }
+
+/* IMPACT TABLE */
+.impact-table { width: 100%; border-collapse: collapse; font-size: .87rem; margin: 1rem 0; }
+.impact-table th { background: rgba(212,168,67,.09); color: var(--gold); text-align: left; padding: .65rem 1rem; font-weight: 600; font-size: .76rem; letter-spacing: .06em; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+.impact-table td { padding: .6rem 1rem; border-bottom: 1px solid rgba(255,255,255,.04); vertical-align: top; color: var(--muted); }
+.impact-table tr:hover td { background: rgba(255,255,255,.02); color: var(--text); }
+.impact-table .bad { color: #E07070; }
+.impact-table .good { color: var(--green); }
+
+/* COMPARISON */
+.comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1.4rem 0; }
+.comp-box { border-radius: 12px; padding: 1.15rem 1.3rem; }
+.comp-good { background: rgba(107,191,149,.07); border: 1px solid rgba(107,191,149,.2); }
+.comp-bad  { background: rgba(220,80,80,.07);   border: 1px solid rgba(220,80,80,.2);  }
+.comp-box h4 { font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .65rem; }
+.comp-good h4 { color: var(--green); }
+.comp-bad  h4 { color: #E07070; }
+.comp-box ul { list-style: none; }
+.comp-box ul li { font-size: .86rem; color: var(--muted); padding: .28rem 0; display: flex; gap: .5rem; }
+.comp-box ul li::before { content: '→'; flex-shrink: 0; }
+.comp-good ul li::before { color: var(--green); }
+.comp-bad  ul li::before { color: #E07070; }
+
+/* ADDICTION CARDS */
+.addiction-card { background: rgba(220,80,80,.06); border: 1px solid rgba(220,80,80,.17); border-radius: 12px; padding: 1.15rem 1.35rem; margin: .75rem 0; }
+.addiction-card h4 { color: #E07070; font-size: .93rem; margin-bottom: .45rem; }
+.addiction-card p { font-size: .87rem; color: var(--muted); line-height: 1.7; }
+
+/* NEED SUMMARY GRID */
+.needs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin: 1.8rem 0; }
+.need-card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 1.3rem 1.4rem; cursor: default; }
+.need-card .need-icon { font-size: 1.9rem; margin-bottom: .6rem; }
+.need-card h3 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold); margin-bottom: .35rem; }
+.need-card p { font-size: .84rem; color: var(--muted); line-height: 1.55; }
+
+/* ═══ PATH TO RESTORATION ═══ */
+.restoration-steps { margin: 2rem 0; display: flex; flex-direction: column; gap: 0; }
+.rest-step {
+  display: flex; gap: 1.2rem; align-items: flex-start; position: relative;
+  padding-bottom: 1.8rem;
+}
+.rest-step:last-child { padding-bottom: 0; }
+.rest-step-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+.rest-num {
+  width: 42px; height: 42px; border-radius: 50%; background: rgba(212,168,67,.15);
+  border: 2px solid var(--gold-dim); display: flex; align-items: center; justify-content: center;
+  font-family: 'Playfair Display', serif; font-weight: 700; color: var(--gold); font-size: 1rem;
+  flex-shrink: 0; z-index: 1;
+}
+.rest-line {
+  width: 2px; flex: 1; background: linear-gradient(to bottom, var(--gold-dim), transparent);
+  margin-top: .3rem; min-height: 30px;
+}
+.rest-step:last-child .rest-line { display: none; }
+.rest-content { padding-top: .3rem; flex: 1; }
+.rest-content h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--gold); margin-bottom: .35rem; }
+.rest-content p { font-size: .89rem; color: var(--muted); line-height: 1.75; }
+.rest-verse { font-size: .82rem; color: var(--blue); font-style: italic; margin-top: .35rem; }
+
+/* SOURCES */
+.sources-list { list-style: none; counter-reset: src; }
+.sources-list li { counter-increment: src; display: flex; gap: .7rem; font-size: .86rem; color: var(--muted); margin-bottom: .55rem; align-items: flex-start; }
+.sources-list li::before { content: counter(src) '.'; color: var(--gold); font-weight: 600; flex-shrink: 0; }
+.disclaimer-box { background: rgba(212,168,67,.06); border: 1px solid rgba(212,168,67,.18); border-radius: 12px; padding: 1.15rem 1.45rem; margin-top: 1.4rem; font-size: .84rem; color: var(--muted); line-height: 1.7; }
+.disclaimer-box strong { color: var(--gold); }
+
+/* BACK TO TOP */
+#btt {
+  position: fixed; bottom: 2rem; right: 2rem; width: 44px; height: 44px;
+  background: var(--gold); color: var(--bg); border: none; border-radius: 50%;
+  font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  opacity: 0; transform: translateY(20px); transition: all .3s; z-index: 190;
+  box-shadow: 0 4px 16px rgba(212,168,67,.35);
+}
+#btt.show { opacity: 1; transform: translateY(0); }
+#btt:hover { background: var(--amber); transform: scale(1.1); }
+
+/* OVERLAY */
+#overlay { display: none; position: fixed; inset: 60px 0 0 0; background: rgba(0,0,0,.6); z-index: 140; }
+
+/* RESPONSIVE */
+@media (max-width: 860px) {
+  #hamburger { display: block; }
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #overlay.open { display: block; }
+  #main { margin-left: 0; padding: 0 1.2rem 5rem; }
+  .needs-grid { grid-template-columns: 1fr; }
+  .comparison { grid-template-columns: 1fr; }
+  #search-input { width: 140px; }
+  #search-input:focus { width: 180px; }
+}
+@media (max-width: 520px) { #search-wrap { display: none; } }
+
+/* ANIMATIONS */
+@keyframes fadeInUp { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+.fade-in { opacity: 0; }
+.fade-in.visible { animation: fadeInUp .5s ease forwards; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<header id="topbar">
+  <div style="display:flex;align-items:center;gap:.8rem;">
+    <button id="hamburger" aria-label="Menu">☰</button>
+    <div class="topbar-brand">✦ Core Human Needs <span>— A Biblical Guide</span></div>
+  </div>
+  <div id="search-wrap">
+    <input id="search-input" type="text" placeholder="Search topics…" autocomplete="off" />
+    <span class="search-icon">🔍</span>
+    <div id="search-results"></div>
+  </div>
+</header>
+
+<div id="progress"></div>
+<div id="overlay"></div>
+
+<div id="layout">
+
+<!-- SIDEBAR -->
+<nav id="sidebar">
+  <div class="sidebar-title">Contents</div>
+  <a class="sidebar-link" href="#what-is">What Is a Human Need?</a>
+  <a class="sidebar-link" href="#why-needs">Why We Have Core Needs</a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-title">The 6 Core Needs</div>
+  <a class="sidebar-link" href="#core-needs-intro">Overview (Interactive)</a>
+  <a class="sidebar-link" href="#need-physical">① Physical Needs</a>
+  <a class="sidebar-link" href="#need-safety">② Safety & Security</a>
+  <a class="sidebar-link" href="#need-love">③ Love & Belonging</a>
+  <a class="sidebar-link" href="#need-significance">④ Significance & Purpose</a>
+  <a class="sidebar-link" href="#need-peace">⑤ Inner Peace</a>
+  <a class="sidebar-link" href="#need-spiritual">⑥ Spiritual Connection</a>
+  <div class="sidebar-sep"></div>
+  <div class="sidebar-title">Deep Dives</div>
+  <a class="sidebar-link" href="#bad-activities">Bad Activities People Do</a>
+  <a class="sidebar-link" href="#why-addictions">Why People Turn to Addictions</a>
+  <a class="sidebar-link" href="#negative-impact">Negative Impact</a>
+  <a class="sidebar-link" href="#benefits">Benefits of Healthy Fulfillment</a>
+  <a class="sidebar-link" href="#consequences">Consequences of Wrong Paths</a>
+  <a class="sidebar-link" href="#restoration">Path to Restoration</a>
+  <div class="sidebar-sep"></div>
+  <a class="sidebar-link" href="#sources">Sources & Disclaimer</a>
+</nav>
+
+<!-- MAIN -->
+<main id="main">
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-eyebrow">✦ A Guide Rooted in the Teachings of Jesus</div>
+  <h1 class="hero-title">Understanding<br /><em>Core Human Needs</em><br />Through the Eyes of Christ</h1>
+  <p class="hero-sub">Every craving, every longing, every desperate search — Jesus knew them all. He didn't come to suppress our needs. He came to fulfill them.</p>
+  <div class="summary-pill">
+    "Every human need is a God-designed signal pointing us toward the only One who can truly satisfy it — Jesus Christ."
+  </div>
+</section>
+
+<!-- WHAT IS A HUMAN NEED -->
+<section class="section fade-in" id="what-is">
+  <div class="sec-eyebrow">Foundation</div>
+  <h2 class="sec-title">What Is a Human Need?</h2>
+  <p class="sec-intro">A human need is not a weakness — it is a built-in requirement placed by God into every person. It is a fundamental condition that must be met for a person to survive, thrive, and live with wholeness and dignity.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">I am the bread of life. Whoever comes to me will never go hungry, and whoever believes in me will never be thirsty.</p>
+    <div class="verse-ref">— John 6:35, Jesus speaking</div>
+  </div>
+
+  <div class="topic-block">
+    <span class="topic-label tl-gold">📖 The Biblical View</span>
+    <p>Jesus understood every dimension of human need. He fed the hungry, healed the sick, comforted the grieving, and offered living water to the thirsty soul. In His ministry, He addressed needs at every level — physical, emotional, relational, and spiritual. Needs are not sin. They are the language God uses to draw us to Himself. When left unfulfilled, or fulfilled in the wrong way, they lead to pain, destruction, and emptiness.</p>
+  </div>
+
+  <div class="topic-block" style="margin-top:1rem;">
+    <span class="topic-label tl-blue">🔑 Key Characteristics of Human Needs</span>
+    <ul class="styled-list">
+      <li data-icon="✦">They are <strong>universal</strong> — every human being, regardless of culture or background, shares these needs.</li>
+      <li data-icon="✦">They are <strong>God-designed</strong> — placed intentionally to drive us toward relationship with God and others.</li>
+      <li data-icon="✦">They are <strong>persistent</strong> — unmet needs don't disappear; they intensify and find expression in behavior.</li>
+      <li data-icon="✦">They can be met in <strong>healthy or destructive</strong> ways — the path chosen makes all the difference.</li>
+      <li data-icon="✦">They are <strong>interconnected</strong> — neglecting one need often starves the others.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- WHY WE HAVE NEEDS -->
+<section class="section fade-in" id="why-needs">
+  <div class="sec-eyebrow">Purpose</div>
+  <h2 class="sec-title">Why We Have Core Human Needs</h2>
+  <p class="sec-intro">God did not create needs as punishment. Every need is purposefully wired into our design to keep us tethered to the Source of all life. Needs exist to lead us — to community, to compassion, and ultimately to God.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">Ask and it will be given to you; seek and you will find; knock and the door will be opened to you. For everyone who asks receives; the one who seeks finds; and to the one who knocks, the door will be opened.</p>
+    <div class="verse-ref">— Matthew 7:7–8, Jesus speaking</div>
+  </div>
+
+  <div class="comparison">
+    <div class="comp-box comp-good">
+      <h4>✦ Why God Gave Us Needs</h4>
+      <ul>
+        <li>To keep us dependent on Him, not self-sufficient</li>
+        <li>To build community — we need each other</li>
+        <li>To cultivate humility and gratitude</li>
+        <li>To signal when something is spiritually misaligned</li>
+        <li>To deepen faith through answered prayer</li>
+        <li>To give meaning to service — meeting others' needs</li>
+      </ul>
+    </div>
+    <div class="comp-box comp-bad">
+      <h4>⚠ What Happens When We Ignore This</h4>
+      <ul>
+        <li>We seek counterfeit fulfillment (addictions, idols)</li>
+        <li>Isolation and pride grow unchecked</li>
+        <li>Spiritual emptiness sets in deeper</li>
+        <li>We become numb to God's voice</li>
+        <li>Destructive behaviors escalate</li>
+        <li>Relationships collapse under unmet needs</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CORE NEEDS ACCORDION INTRO -->
+<section class="section fade-in" id="core-needs-intro">
+  <div class="sec-eyebrow">The Framework</div>
+  <h2 class="sec-title">The 6 Core Human Needs</h2>
+  <p class="sec-intro">Drawing from the life and teachings of Jesus, we identify six essential categories of human need. Click any need below to explore its Biblical fulfillment, the bad activities people use as substitutes, and a personal reflection with a concrete action step.</p>
+
+  <div class="accordion-grid">
+
+    <!-- ① PHYSICAL -->
+    <div class="acc-card" id="need-physical">
+      <div class="acc-header" >
+        <span class="acc-icon">🍞</span>
+        <div class="acc-header-text">
+          <h3>① Physical Needs</h3>
+          <p>Food, water, rest, shelter — the foundations of life Jesus acknowledged and provided.</p>
+        </div>
+        <span class="acc-tag">Core Need</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="verse-card">
+          <span class="quote-mark">"</span>
+          <p class="verse-text">Therefore I tell you, do not worry about your life, what you will eat or drink; or about your body, what you will wear. Is not life more than food, and the body more than clothes? Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them.</p>
+          <div class="verse-ref">— Matthew 6:25–26, Jesus speaking</div>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-gold">📖 What This Need Is</span>
+          <p>Physical needs are the most immediate — they sustain biological life. Jesus took them seriously. He fed 5,000 with five loaves and two fish. He healed the sick, rested, and ate with sinners. He never dismissed the body as unimportant — He honored it by taking on flesh Himself.</p>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-green">✅ Biblical Ways to Fulfill Physical Needs</span>
+          <ul class="styled-list">
+            <li data-icon="🍞">Eat and rest with gratitude — honoring your body as a temple of the Holy Spirit (1 Cor. 6:19).</li>
+            <li data-icon="💧">Pray for daily provision and trust God's faithfulness (Matthew 6:11).</li>
+            <li data-icon="🏃">Exercise and care for your health as an act of stewardship.</li>
+            <li data-icon="🤝">Work diligently and share generously with those in physical need (James 2:15–16).</li>
+            <li data-icon="😴">Embrace rest as God-ordained — even the Sabbath was a physical need acknowledged by God.</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-red">⚠ Bad Activities Used to Meet Physical Needs</span>
+          <ul class="styled-list">
+            <li data-icon="🚬">Smoking / vaping — used to manage hunger, stress, or oral cravings.</li>
+            <li data-icon="💊">Drug use and misuse — used to numb physical pain or discomfort.</li>
+            <li data-icon="🍺">Alcohol — used as substitute for rest, relaxation, or numbing bodily tension.</li>
+            <li data-icon="🍔">Binge eating / food addiction — seeking comfort or pleasure beyond genuine hunger.</li>
+            <li data-icon="💉">Steroid or substance abuse — seeking physical ideals outside of natural health.</li>
+          </ul>
+        </div>
+        <div class="reflection-block">
+          <h4>🪞 Personal Reflection & Action Step</h4>
+          <div class="reflection-q">
+            "In what ways have I used food, substances, or physical habits to numb emotional or spiritual pain rather than caring for my body as a gift from God?"
+          </div>
+          <div class="action-step">
+            <span class="as-label">This Week →</span>
+            Choose one physical habit to offer back to God — whether it's sleeping earlier, cutting a substance, eating mindfully, or starting a short daily walk. Pray over your body each morning: <em>"Lord, this body belongs to You. Help me steward it well today."</em>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② SAFETY -->
+    <div class="acc-card" id="need-safety">
+      <div class="acc-header" >
+        <span class="acc-icon">🛡️</span>
+        <div class="acc-header-text">
+          <h3>② Safety & Security</h3>
+          <p>Protection, stability, freedom from fear — the anchor found in trusting God's providence.</p>
+        </div>
+        <span class="acc-tag">Core Need</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="verse-card">
+          <span class="quote-mark">"</span>
+          <p class="verse-text">Peace I leave with you; my peace I give you. I do not give to you as the world gives. Do not let your hearts be troubled and do not be afraid.</p>
+          <div class="verse-ref">— John 14:27, Jesus speaking</div>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-gold">📖 What This Need Is</span>
+          <p>Every human heart longs for stability — to feel protected from danger, loss, and chaos. Jesus knew this need deeply. He calmed storms, cast out fear, and promised never to leave or forsake His own. True security is not the absence of threats — it is the presence of a God who is greater than every threat.</p>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-green">✅ Biblical Ways to Fulfill Safety & Security</span>
+          <ul class="styled-list">
+            <li data-icon="🙏">Trust in God's sovereignty — He is in control even when circumstances are not (Psalm 91).</li>
+            <li data-icon="📖">Meditate on God's promises — His Word is an anchor in uncertainty (Hebrews 6:19).</li>
+            <li data-icon="🏠">Build your life on the "Rock" — Jesus' teachings create a stable foundation (Matthew 7:24–25).</li>
+            <li data-icon="🤝">Invest in trustworthy, godly relationships that provide emotional safety.</li>
+            <li data-icon="🔒">Pursue financial wisdom without making money your security (Matthew 6:19–21).</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-red">⚠ Bad Activities Used to Meet Safety Needs</span>
+          <ul class="styled-list">
+            <li data-icon="🎰">Gambling — false sense of control over financial security.</li>
+            <li data-icon="💊">Benzodiazepine / anti-anxiety drug abuse — chasing chemical safety instead of spiritual peace.</li>
+            <li data-icon="💸">Hoarding / materialism — stockpiling possessions to feel safe.</li>
+            <li data-icon="😤">Aggression and control — dominating others to feel secure.</li>
+            <li data-icon="🔞">Gang membership — seeking protection through dangerous loyalty.</li>
+          </ul>
+        </div>
+        <div class="reflection-block">
+          <h4>🪞 Personal Reflection & Action Step</h4>
+          <div class="reflection-q">
+            "Where do I look for security outside of God — in money, control, people, or substances? What am I most afraid of losing, and does that reveal what I'm truly trusting in?"
+          </div>
+          <div class="action-step">
+            <span class="as-label">This Week →</span>
+            Write down your top three fears. For each one, find a Bible verse where God addresses that specific fear and commit it to memory. Each time anxiety rises, speak the verse aloud as a declaration of trust.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ LOVE -->
+    <div class="acc-card" id="need-love">
+      <div class="acc-header" >
+        <span class="acc-icon">❤️</span>
+        <div class="acc-header-text">
+          <h3>③ Love & Belonging</h3>
+          <p>Acceptance, connection, and community — the heart of what Jesus built through His disciples.</p>
+        </div>
+        <span class="acc-tag">Core Need</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="verse-card">
+          <span class="quote-mark">"</span>
+          <p class="verse-text">A new command I give you: Love one another. As I have loved you, so you must love one another. By this everyone will know that you are my disciples, if you love one another.</p>
+          <div class="verse-ref">— John 13:34–35, Jesus speaking</div>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-gold">📖 What This Need Is</span>
+          <p>Jesus ate with outcasts, touched lepers, forgave adulterers, and welcomed children. His entire ministry declared that nobody is too broken to belong. He defined love radically — as sacrifice, not sentiment — and commanded it as the mark of His followers. The church was born from this need fulfilled.</p>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-green">✅ Biblical Ways to Fulfill Love & Belonging</span>
+          <ul class="styled-list">
+            <li data-icon="⛪">Be part of a genuine church community — not just attendance, but deep fellowship (Acts 2:42–47).</li>
+            <li data-icon="❤️">Receive God's unconditional love daily — let it fill what people cannot (Romans 8:38–39).</li>
+            <li data-icon="🤝">Practice vulnerability and authentic friendship (Proverbs 18:24).</li>
+            <li data-icon="💍">Honor marriage and family as God's primary relational structure (Matthew 19:4–6).</li>
+            <li data-icon="🫂">Serve others — nothing builds belonging like loving sacrifice (Mark 10:45).</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-red">⚠ Bad Activities Used to Meet Love & Belonging Needs</span>
+          <ul class="styled-list">
+            <li data-icon="💊">Drug use in social circles — belonging through substance culture.</li>
+            <li data-icon="📱">Social media addiction — seeking validation and artificial connection.</li>
+            <li data-icon="💔">Toxic relationships — accepting abuse in exchange for presence.</li>
+            <li data-icon="🔞">Sexual immorality — physical intimacy used as substitute for emotional love.</li>
+            <li data-icon="🍺">Alcohol-fueled socializing — lowering inhibitions to feel connected.</li>
+            <li data-icon="😡">People-pleasing and codependency — sacrificing identity to be accepted.</li>
+          </ul>
+        </div>
+        <div class="reflection-block">
+          <h4>🪞 Personal Reflection & Action Step</h4>
+          <div class="reflection-q">
+            "Am I trying to fill the need for love with something or someone other than God first? Have I settled for shallow connections, toxic relationships, or digital validation instead of genuine community?"
+          </div>
+          <div class="action-step">
+            <span class="as-label">This Week →</span>
+            Reach out to one person you have been keeping at arm's length and invite them to a genuine conversation — not over social media. Also spend 10 minutes daily meditating on Romans 8:38–39 until the love of God feels more real than the approval of people.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ SIGNIFICANCE -->
+    <div class="acc-card" id="need-significance">
+      <div class="acc-header" >
+        <span class="acc-icon">⭐</span>
+        <div class="acc-header-text">
+          <h3>④ Significance & Purpose</h3>
+          <p>Meaning, value, and contribution — Jesus called every person by name and gave them a mission.</p>
+        </div>
+        <span class="acc-tag">Core Need</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="verse-card">
+          <span class="quote-mark">"</span>
+          <p class="verse-text">You are the light of the world. A town built on a hill cannot be hidden. Neither do people light a lamp and put it under a bowl. Instead they put it on its stand, and it gives light to everyone in the house.</p>
+          <div class="verse-ref">— Matthew 5:14–15, Jesus speaking</div>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-gold">📖 What This Need Is</span>
+          <p>Every human being aches to matter — to know their life counts for something. Jesus answered this need profoundly. He called fishermen to change the world. He told a woman at a well that she was worth a conversation that transformed a city. He looked at the unnoticed and said: <em>"You are significant in My Kingdom."</em></p>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-green">✅ Biblical Ways to Fulfill Significance & Purpose</span>
+          <ul class="styled-list">
+            <li data-icon="✝️">Understand your God-given identity — you are a child of the Most High (John 1:12).</li>
+            <li data-icon="🎯">Discover and use your spiritual gifts to build others up (Romans 12:6–8).</li>
+            <li data-icon="📖">Pursue calling over career — ask God what your mission is (Jeremiah 29:11).</li>
+            <li data-icon="🌱">Mentor and disciple others — your story can bring life to someone else's.</li>
+            <li data-icon="💪">Do small things with great love — significance isn't about fame, but faithfulness.</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-red">⚠ Bad Activities Used to Meet Significance Needs</span>
+          <ul class="styled-list">
+            <li data-icon="📸">Fame-chasing / influencer obsession — building identity on followers and likes.</li>
+            <li data-icon="💰">Greed and workaholism — equating net worth with self-worth.</li>
+            <li data-icon="💊">Stimulant or drug use for performance — using substances to feel capable or impressive.</li>
+            <li data-icon="😤">Narcissism / bullying — elevating self by diminishing others.</li>
+            <li data-icon="🎮">Gaming addiction — finding significance in virtual achievement to escape real-life emptiness.</li>
+          </ul>
+        </div>
+        <div class="reflection-block">
+          <h4>🪞 Personal Reflection & Action Step</h4>
+          <div class="reflection-q">
+            "Where does my sense of worth come from — what I achieve, how I look, what others think of me? If all of that were stripped away, would I still know I am deeply valued by God?"
+          </div>
+          <div class="action-step">
+            <span class="as-label">This Week →</span>
+            Write a one-paragraph "purpose statement" based on how God describes you in Scripture — not what you do, but who you are in Christ. Read it each morning before checking your phone. Then do one act of service this week where no one will know it was you.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑤ INNER PEACE -->
+    <div class="acc-card" id="need-peace">
+      <div class="acc-header" >
+        <span class="acc-icon">🕊️</span>
+        <div class="acc-header-text">
+          <h3>⑤ Inner Peace</h3>
+          <p>Rest for the soul, emotional stability, freedom from anxiety — Jesus promised this peace personally.</p>
+        </div>
+        <span class="acc-tag">Core Need</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="verse-card">
+          <span class="quote-mark">"</span>
+          <p class="verse-text">Come to me, all you who are weary and burdened, and I will give you rest. Take my yoke upon you and learn from me, for I am gentle and humble in heart, and you will find rest for your souls.</p>
+          <div class="verse-ref">— Matthew 11:28–29, Jesus speaking</div>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-gold">📖 What This Need Is</span>
+          <p>The soul was not designed for perpetual anxiety. Jesus slept during a storm that terrified seasoned fishermen. He wept at Lazarus' tomb — but then raised him. He modeled a peace that does not require perfect circumstances, only a perfect trust. Inner peace is not passive. It is the active result of ongoing relationship with God.</p>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-green">✅ Biblical Ways to Fulfill Inner Peace</span>
+          <ul class="styled-list">
+            <li data-icon="🙏">Prayer — casting anxiety on God and trusting His care (Philippians 4:6–7).</li>
+            <li data-icon="📖">Scripture meditation — renewing the mind with truth (Romans 12:2).</li>
+            <li data-icon="🎶">Worship — surrendering stress and entering God's presence.</li>
+            <li data-icon="🫂">Confession and forgiveness — releasing guilt that steals peace.</li>
+            <li data-icon="😌">Sabbath rest — a weekly rhythm of stopping and trusting (Mark 2:27).</li>
+            <li data-icon="🌿">Gratitude practice — countering anxiety with daily thankfulness (1 Thess. 5:18).</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-red">⚠ Bad Activities Used to Meet Inner Peace Needs</span>
+          <ul class="styled-list">
+            <li data-icon="🍺">Alcohol — used to "unwind" and dull emotional pain or stress.</li>
+            <li data-icon="💊">Marijuana and recreational drugs — temporary chemical peace at long-term mental cost.</li>
+            <li data-icon="😴">Escapism — excessive sleep, binging shows, or fantasy as avoidance.</li>
+            <li data-icon="💊">Prescription drug abuse — using sedatives or painkillers beyond their purpose.</li>
+            <li data-icon="✂️">Self-harm — a desperate attempt to convert emotional pain into something controllable.</li>
+            <li data-icon="🎰">Gambling / thrill-seeking — adrenaline used to suppress anxiety.</li>
+          </ul>
+        </div>
+        <div class="reflection-block">
+          <h4>🪞 Personal Reflection & Action Step</h4>
+          <div class="reflection-q">
+            "What am I using to quiet the noise in my mind — and is it bringing lasting peace or just temporary silence? What would it look like to bring my anxiety to Jesus instead?"
+          </div>
+          <div class="action-step">
+            <span class="as-label">This Week →</span>
+            Practice the "Philippians 4:6–7 method" every night before sleep: write down every anxious thought, turn each one into a specific prayer request, then write one thing you are thankful for alongside each. Do this for seven consecutive nights and notice what shifts.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ⑥ SPIRITUAL -->
+    <div class="acc-card" id="need-spiritual">
+      <div class="acc-header" >
+        <span class="acc-icon">✝️</span>
+        <div class="acc-header-text">
+          <h3>⑥ Spiritual Connection</h3>
+          <p>Forgiveness, eternal life, union with God — the deepest need Jesus came specifically to fulfill.</p>
+        </div>
+        <span class="acc-tag">Core Need</span>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body">
+        <div class="verse-card">
+          <span class="quote-mark">"</span>
+          <p class="verse-text">Everyone who drinks this water will be thirsty again, but whoever drinks the water I give them will never thirst. Indeed, the water I give them will become in them a spring of water welling up to eternal life.</p>
+          <div class="verse-ref">— John 4:13–14, Jesus to the Woman at the Well</div>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-gold">📖 What This Need Is</span>
+          <p>Augustine wrote: "Our hearts are restless until they rest in You." Jesus confirmed this truth in every encounter — every person He met had a spiritual void that nothing earthly could fill. The Woman at the Well had five husbands. Zacchaeus had wealth. The Rich Young Ruler had morality. None of it was enough. Only Jesus was enough.</p>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-green">✅ Biblical Ways to Fulfill Spiritual Connection</span>
+          <ul class="styled-list">
+            <li data-icon="✝️">Receive salvation through faith in Jesus Christ — the ultimate answer to spiritual need (John 3:16).</li>
+            <li data-icon="📖">Daily Bible reading — feeding the spirit as we feed the body.</li>
+            <li data-icon="🙏">Consistent prayer — maintaining relationship, not just making requests.</li>
+            <li data-icon="⛪">Community worship — the gathered church as a spiritual ecosystem.</li>
+            <li data-icon="🌊">Baptism and the Lord's Supper — tangible acts that reinforce spiritual identity.</li>
+            <li data-icon="🫂">Confession and repentance — spiritual hygiene that maintains the connection.</li>
+          </ul>
+        </div>
+        <div class="topic-block">
+          <span class="topic-label tl-red">⚠ Bad Activities Used to Meet Spiritual Needs</span>
+          <ul class="styled-list">
+            <li data-icon="🔮">Occult practices, fortune-telling, witchcraft — counterfeit spiritual experiences.</li>
+            <li data-icon="💊">Psychedelic drug use — chemically-induced "spiritual" states (DMT, psilocybin).</li>
+            <li data-icon="🙏">False religion and cult involvement — seeking God in broken, deceptive systems.</li>
+            <li data-icon="📲">Spiritual bypass — using religion as performance without real relationship with God.</li>
+            <li data-icon="💀">Nihilism and despair — spiritual surrender that hardens the heart.</li>
+          </ul>
+        </div>
+        <div class="reflection-block">
+          <h4>🪞 Personal Reflection & Action Step</h4>
+          <div class="reflection-q">
+            "Is my spiritual life a genuine relationship with God, or is it a routine? Do I bring my whole self to prayer — my doubts, my failures, my longings — or only my polished, acceptable parts?"
+          </div>
+          <div class="action-step">
+            <span class="as-label">This Week →</span>
+            Set aside 15 minutes each morning for what theologians call "lectio divina" — slow, prayerful reading of one short Bible passage. Read it once for understanding, once asking "What is God saying to me?", and once asking "What response does this call for?" Write one sentence of response in a journal.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end accordion-grid -->
+</section>
+
+<!-- BAD ACTIVITIES -->
+<section class="section fade-in" id="bad-activities">
+  <div class="sec-eyebrow">Understanding the Problem</div>
+  <h2 class="sec-title">Bad Activities People Do to Fulfill Their Needs</h2>
+  <p class="sec-intro">None of these activities are chosen randomly. Every destructive behavior is an attempt — however broken — to meet a real, legitimate need. The problem is not the need. The problem is the counterfeit solution.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">The thief comes only to steal and kill and destroy; I have come that they may have life, and have it to the full.</p>
+    <div class="verse-ref">— John 10:10, Jesus speaking</div>
+  </div>
+
+  <table class="impact-table">
+    <thead>
+      <tr><th>Bad Activity</th><th>Need Being Sought</th><th>Why It Fails</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="bad">Smoking / Nicotine</td><td>Stress relief, oral comfort, social belonging</td><td>Provides brief dopamine; creates long-term dependency and disease</td></tr>
+      <tr><td class="bad">Alcohol / Drinking</td><td>Relaxation, social connection, escape from pain</td><td>Disrupts brain chemistry; erodes relationships and health</td></tr>
+      <tr><td class="bad">Recreational Drugs</td><td>Pleasure, belonging, peace, spiritual experience</td><td>Hijacks the brain's reward system; leaves deeper emptiness</td></tr>
+      <tr><td class="bad">Pornography</td><td>Love, intimacy, significance, pleasure</td><td>Distorts intimacy; creates isolation and shame cycles</td></tr>
+      <tr><td class="bad">Gambling</td><td>Security, significance, thrill, control</td><td>Creates financial ruin and compulsive need for risk</td></tr>
+      <tr><td class="bad">Social Media Addiction</td><td>Belonging, love, significance, validation</td><td>Replaces real connection with performance anxiety</td></tr>
+      <tr><td class="bad">Workaholism</td><td>Significance, security, purpose</td><td>Neglects relationships; identity collapses without productivity</td></tr>
+      <tr><td class="bad">Overeating / Food Addiction</td><td>Comfort, pleasure, physical numbing</td><td>Harms physical health; guilt cycle deepens emotional pain</td></tr>
+      <tr><td class="bad">Toxic Relationships</td><td>Love, belonging, acceptance</td><td>Trauma bonding; continued cycles of abuse and abandonment</td></tr>
+      <tr><td class="bad">Violence / Aggression</td><td>Power, security, significance</td><td>Destroys trust; creates legal consequences and deep isolation</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- WHY ADDICTIONS -->
+<section class="section fade-in" id="why-addictions">
+  <div class="sec-eyebrow">Root Causes</div>
+  <h2 class="sec-title">Why People Turn to Drugs, Smoking & Addictions</h2>
+  <p class="sec-intro">Before we judge, Jesus calls us to understand. He sat with sinners not to approve their choices, but because He understood the wounds driving them. No one wakes up deciding to destroy their life — addiction grows in the soil of unmet need and unhealed pain.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">It is not the healthy who need a doctor, but the sick. I have not come to call the righteous, but sinners to repentance.</p>
+    <div class="verse-ref">— Luke 5:31–32, Jesus speaking</div>
+  </div>
+
+  <div class="addiction-card">
+    <h4>🧠 The Neuroscience and the Soul</h4>
+    <p>Drugs, alcohol, and addictive behaviors flood the brain with dopamine — the same chemical God designed to reward healthy behaviors like eating, connection, and worship. When legitimate needs go unmet long enough, the brain becomes desperate for relief. Substances offer a shortcut to the feeling of fulfillment without the relationship, the work, or the healing. It is a spiritual counterfeit operating through a biological mechanism.</p>
+  </div>
+
+  <div class="addiction-card">
+    <h4>💔 Unhealed Trauma and Emotional Pain</h4>
+    <p>Many who struggle with addiction carry wounds from childhood — neglect, abuse, abandonment, or rejection. When pain has no healthy outlet and no healer, substances become anesthesia. Jesus specializes in healing deep wounds (Luke 4:18), but without encountering Him, the wounded self-medicates with whatever numbs fastest.</p>
+  </div>
+
+  <div class="addiction-card">
+    <h4>👥 Social Pressure and Environment</h4>
+    <p>The need for belonging is so powerful that people will risk physical health to be included. Peer environments where smoking, drinking, or drug use is normalized make the decision feel less like destruction and more like belonging. Jesus warned about being conformed to the world for this exact reason (Romans 12:2).</p>
+  </div>
+
+  <div class="addiction-card">
+    <h4>📭 Spiritual Emptiness</h4>
+    <p>Many people turn to substances specifically to feel something transcendent — connectedness, euphoria, or meaning. This is the spiritual need operating in a broken world without God. The soul created for the infinite will use any available path to escape the finite emptiness. As Blaise Pascal observed, there is a God-shaped vacuum in every human heart.</p>
+  </div>
+
+  <div class="addiction-card">
+    <h4>🏚 Poverty, Hopelessness, and Circumstance</h4>
+    <p>When hope is absent, when opportunities are blocked, and when the future appears fixed and bleak, substances offer a temporary escape from despair. This is why Jesus consistently prioritized the poor — He understood that material deprivation crushes the spirit and opens the door to destructive coping.</p>
+  </div>
+</section>
+
+<!-- NEGATIVE IMPACT -->
+<section class="section fade-in" id="negative-impact">
+  <div class="sec-eyebrow">The Cost</div>
+  <h2 class="sec-title">Negative Impact of Bad Activities</h2>
+  <p class="sec-intro">Sin always promises more than it delivers and costs more than you planned to pay. Here is the real price of choosing counterfeit fulfillment across every dimension of human flourishing.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">What good is it for someone to gain the whole world, yet forfeit their soul?</p>
+    <div class="verse-ref">— Mark 8:36, Jesus speaking</div>
+  </div>
+
+  <div class="needs-grid" style="margin-top:1.5rem;">
+    <div class="need-card">
+      <div class="need-icon">🧬</div>
+      <h3 style="color:#E07070;">Physical Damage</h3>
+      <p>Organ failure, brain damage, lung disease, heart disease, cancer, weakened immunity, physical dependency, withdrawal symptoms, and premature death.</p>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">🧠</div>
+      <h3 style="color:#E07070;">Mental & Emotional Harm</h3>
+      <p>Depression, anxiety disorders, paranoia, psychosis, memory loss, emotional numbness, inability to feel natural joy, and suicidal ideation.</p>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">💔</div>
+      <h3 style="color:#E07070;">Relational Destruction</h3>
+      <p>Broken marriages, estranged children, betrayed friendships, isolation, domestic violence, and the erosion of trust that takes years to rebuild.</p>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">💸</div>
+      <h3 style="color:#E07070;">Financial Ruin</h3>
+      <p>Addiction is expensive. Lost jobs, debt, theft, legal fees, medical bills, and poverty — the financial devastation often outlasts the addiction itself.</p>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">✝️</div>
+      <h3 style="color:#E07070;">Spiritual Desolation</h3>
+      <p>Hardened heart, loss of sensitivity to God's voice, guilt-driven distance from God, spiritual bondage, and the deadening of the soul's capacity for worship.</p>
+    </div>
+    <div class="need-card">
+      <div class="need-icon">⚖️</div>
+      <h3 style="color:#E07070;">Social & Legal Consequences</h3>
+      <p>Criminal records, incarceration, social stigma, loss of reputation, job termination, and the cycle of shame that makes recovery feel impossible.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="section fade-in" id="benefits">
+  <div class="sec-eyebrow">The Blessing</div>
+  <h2 class="sec-title">Benefits of Fulfilling Needs the Right Way</h2>
+  <p class="sec-intro">Jesus did not come to restrict life. He came to give life in abundance. When our core needs are met through God's design — through faith, community, purpose, rest, and love — every area of existence flourishes.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">I have come that they may have life, and have it to the full.</p>
+    <div class="verse-ref">— John 10:10, Jesus speaking</div>
+  </div>
+
+  <div class="comparison">
+    <div class="comp-box comp-good">
+      <h4>🌱 When Needs Are Met God's Way</h4>
+      <ul>
+        <li>Physical vitality and healthy body stewardship</li>
+        <li>Deep, lasting inner peace and emotional stability</li>
+        <li>Authentic relationships built on love, not desperation</li>
+        <li>Clear sense of God-given identity and purpose</li>
+        <li>Spiritual intimacy and vibrant prayer life</li>
+        <li>Financial wisdom and the freedom of generosity</li>
+        <li>Mental clarity and emotional resilience</li>
+        <li>A legacy that outlives you and blesses generations</li>
+        <li>True freedom — not absence of struggle, but presence of God in struggle</li>
+      </ul>
+    </div>
+    <div class="comp-box comp-bad">
+      <h4>💀 When Needs Are Met the Wrong Way</h4>
+      <ul>
+        <li>Temporary relief, permanent damage</li>
+        <li>Deepening emptiness beneath surface pleasure</li>
+        <li>Isolation disguised as independence</li>
+        <li>Identity crisis and constant comparison</li>
+        <li>Spiritual numbness and separation from God</li>
+        <li>Financial bondage to addictive habits</li>
+        <li>Anxiety and depression as constant companions</li>
+        <li>A life built on sand that collapses under pressure</li>
+        <li>Bondage — enslaved to the very thing that promised freedom</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CONSEQUENCES -->
+<section class="section fade-in" id="consequences">
+  <div class="sec-eyebrow">The Warning</div>
+  <h2 class="sec-title">Consequences of Using Wrong Means to Meet Needs</h2>
+  <p class="sec-intro">Jesus was not silent about consequences. He spoke about them clearly and lovingly — not to condemn, but to protect. Like a good shepherd, He warned the sheep about cliffs. Here is what Scripture reveals about the long-term cost of counterfeit fulfillment.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">No one can serve two masters. Either you will hate the one and love the other, or you will be devoted to the one and despise the other.</p>
+    <div class="verse-ref">— Matthew 6:24, Jesus speaking</div>
+  </div>
+
+  <table class="impact-table">
+    <thead>
+      <tr><th>Wrong Path</th><th>Short-Term Effect</th><th>Long-Term Consequence</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="bad">Drug/Alcohol Abuse</td><td>Temporary relief, pleasure, numbing</td><td class="bad">Addiction, organ failure, relational destruction, spiritual bondage</td></tr>
+      <tr><td class="bad">Smoking / Vaping</td><td>Stress reduction, social acceptance</td><td class="bad">Lung cancer, heart disease, financial drain, chemical dependency</td></tr>
+      <tr><td class="bad">Pornography</td><td>Instant gratification, fantasy intimacy</td><td class="bad">Warped view of love, sexual dysfunction, shame cycle, broken marriages</td></tr>
+      <tr><td class="bad">Materialism</td><td>Sense of security, status, comfort</td><td class="bad">Spiritual emptiness, anxiety, debt, inability to find contentment</td></tr>
+      <tr><td class="bad">Toxic Relationships</td><td>Sense of connection and not being alone</td><td class="bad">Emotional abuse, codependency, identity loss, deepened wounds</td></tr>
+      <tr><td class="bad">Workaholism</td><td>Purpose, significance, productivity rush</td><td class="bad">Burnout, family breakdown, identity collapse when work ends</td></tr>
+      <tr><td class="bad">Social Media Addiction</td><td>Validation, connection, entertainment</td><td class="bad">Depression, comparison anxiety, shallow identity, inability to be present</td></tr>
+      <tr><td class="bad">Self-Harm</td><td>Sense of control, release of emotional pain</td><td class="bad">Physical scarring, mental health deterioration, shame and secrecy</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ═══ PATH TO RESTORATION ═══ -->
+<section class="section fade-in" id="restoration">
+  <div class="sec-eyebrow">The Way Back</div>
+  <h2 class="sec-title">The Path to Restoration</h2>
+  <p class="sec-intro">The most profound truth of Jesus' ministry is this: no consequence is permanent in His hands. The prodigal son returned from the pig pen. Zacchaeus climbed down from his tree. The woman caught in adultery walked away forgiven. The man possessed by a legion of demons sat at Jesus' feet in his right mind. Recovery is not just possible — it is promised. Here is the path Jesus models.</p>
+
+  <div class="verse-card">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">So if the Son sets you free, you will be free indeed.</p>
+    <div class="verse-ref">— John 8:36, Jesus speaking</div>
+  </div>
+
+  <div class="restoration-steps">
+
+    <div class="rest-step">
+      <div class="rest-step-left"><div class="rest-num">1</div><div class="rest-line"></div></div>
+      <div class="rest-content">
+        <h4>Conviction — Seeing the Truth Clearly</h4>
+        <p>The Holy Spirit brings gentle but undeniable light to the reality of our condition. Not crushing guilt, but the honest recognition: "This thing I am doing is destroying me, and it is not what I was made for." The prodigal son "came to his senses" before he came home. Restoration begins with seeing clearly.</p>
+        <div class="rest-verse">→ "When he came to his senses, he said… I will set out and go back to my father." — Luke 15:17–18</div>
+      </div>
+    </div>
+
+    <div class="rest-step">
+      <div class="rest-step-left"><div class="rest-num">2</div><div class="rest-line"></div></div>
+      <div class="rest-content">
+        <h4>Repentance — Turning Around</h4>
+        <p>Repentance is not self-hatred or endless regret — it is a decision of direction. The Greek word <em>metanoia</em> means a complete change of mind and direction. Jesus called people to turn, not to collapse. Repentance is the pivot point where restoration becomes possible. It is not a feeling; it is a choice to move toward God.</p>
+        <div class="rest-verse">→ "Repent and believe the good news." — Mark 1:15, Jesus speaking</div>
+      </div>
+    </div>
+
+    <div class="rest-step">
+      <div class="rest-step-left"><div class="rest-num">3</div><div class="rest-line"></div></div>
+      <div class="rest-content">
+        <h4>Forgiveness — Receiving God's Grace</h4>
+        <p>Before the prodigal son could finish his rehearsed apology, his father ran to him, embraced him, and called for a celebration. This is God's posture toward the returning soul — running, not waiting. Forgiveness is not earned by the depth of our remorse. It is given freely because of the depth of Christ's sacrifice. Receive it fully.</p>
+        <div class="rest-verse">→ "While he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son…" — Luke 15:20</div>
+      </div>
+    </div>
+
+    <div class="rest-step">
+      <div class="rest-step-left"><div class="rest-num">4</div><div class="rest-line"></div></div>
+      <div class="rest-content">
+        <h4>Healing — Letting God Restore the Broken Places</h4>
+        <p>Forgiveness is instantaneous. Healing is a journey. Jesus healed people in different ways — some immediately, some progressively. What is consistent is His commitment to completing the work He begins. Healing often comes through community, honest conversation, professional support, ongoing prayer, and the patient work of Scripture on the mind and heart.</p>
+        <div class="rest-verse">→ "He heals the brokenhearted and binds up their wounds." — Psalm 147:3</div>
+      </div>
+    </div>
+
+    <div class="rest-step">
+      <div class="rest-step-left"><div class="rest-num">5</div><div class="rest-line"></div></div>
+      <div class="rest-content">
+        <h4>Community — Recovering in Relationship</h4>
+        <p>Jesus never sent anyone to recover alone. He restored Peter in the presence of other disciples. He sent the healed demoniac back to his community. Accountability, encouragement, and shared faith are not optional add-ons to restoration — they are the environment in which restoration happens. A local church, a small group, or a trusted friend with faith can make the difference.</p>
+        <div class="rest-verse">→ "Therefore confess your sins to each other and pray for each other so that you may be healed." — James 5:16</div>
+      </div>
+    </div>
+
+    <div class="rest-step">
+      <div class="rest-step-left"><div class="rest-num">6</div><div class="rest-line"></div></div>
+      <div class="rest-content">
+        <h4>Mission — Using Your Story to Restore Others</h4>
+        <p>The final movement of restoration is not inward maintenance but outward purpose. Jesus healed the Gerasene demoniac and immediately gave him a mission: "Go home to your own people and tell them how much the Lord has done for you." Your story of brokenness and redemption is not a liability — it is your greatest ministry tool. The very need that once destroyed you becomes the credential that qualifies you to help others.</p>
+        <div class="rest-verse">→ "Go home to your own people and tell them how much the Lord has done for you." — Mark 5:19, Jesus speaking</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="verse-card" style="margin-top:2rem;">
+    <span class="quote-mark">"</span>
+    <p class="verse-text">He who began a good work in you will carry it on to completion until the day of Christ Jesus.</p>
+    <div class="verse-ref">— Philippians 1:6 (Paul, echoing the promise of Jesus)</div>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section class="section fade-in" id="sources">
+  <div class="sec-eyebrow">References</div>
+  <h2 class="sec-title">Sources & Further Reading</h2>
+  <ul class="sources-list">
+    <li>Willard, Dallas. <em>The Spirit of the Disciplines: Understanding How God Changes Lives.</em> HarperOne, 1988.</li>
+    <li>Townsend, John &amp; Cloud, Henry. <em>Safe People: How to Find Relationships That Are Good for You.</em> Zondervan, 1995.</li>
+    <li>American Psychiatric Association. <em>Diagnostic and Statistical Manual of Mental Disorders (DSM-5-TR).</em> 2022.</li>
+    <li>National Institute on Drug Abuse (NIDA). "Understanding Drug Use and Addiction." <em>drugabuse.gov</em>, 2023.</li>
+    <li>Crabb, Larry. <em>Inside Out.</em> NavPress, 1988.</li>
+    <li>Augustine of Hippo. <em>Confessions.</em> 397 AD.</li>
+    <li>World Health Organization (WHO). "Alcohol and Health." <em>who.int</em>, 2023.</li>
+    <li>Centers for Disease Control and Prevention (CDC). "Smoking and Tobacco Use." <em>cdc.gov</em>, 2023.</li>
+    <li>Pascal, Blaise. <em>Pensées.</em> 1670.</li>
+  </ul>
+  <div class="disclaimer-box">
+    <strong>⚠ Disclaimer:</strong> This guide is intended for spiritual education and personal reflection only. It is not a substitute for professional medical, psychiatric, psychological, or pastoral counseling. If you or someone you know is struggling with addiction, substance use, mental health challenges, or thoughts of self-harm, please seek qualified professional help immediately. <strong>SAMHSA National Helpline: 1-800-662-4357</strong> (free, confidential, 24/7). <strong>988 Suicide &amp; Crisis Lifeline</strong> — call or text 988. The Biblical perspectives shared represent one Christian interpretive tradition and are offered in a spirit of grace, not judgment. God's love and restoration are available to everyone, without exception.
+  </div>
+</section>
+
+</main>
+</div>
+
+<button id="btt" title="Back to Top" aria-label="Back to top">↑</button>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+  // ── ACCORDION IDs that sidebar links may target ──
+  const ACC_IDS = ['need-physical','need-safety','need-love','need-significance','need-peace','need-spiritual'];
+
+  // ── HELPERS ──
+  function openAccordion(card) {
+    document.querySelectorAll('.acc-card.open').forEach(function(c){ c.classList.remove('open'); });
+    card.classList.add('open');
+  }
+
+  function closeAllAccordions() {
+    document.querySelectorAll('.acc-card.open').forEach(function(c){ c.classList.remove('open'); });
+  }
+
+  function scrollToId(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    var top = el.getBoundingClientRect().top + window.scrollY - 80;
+    window.scrollTo({ top: top, behavior: 'smooth' });
+  }
+
+  // ── ACCORDION HEADERS ──
+  document.querySelectorAll('.acc-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var card = header.parentElement;
+      var wasOpen = card.classList.contains('open');
+      closeAllAccordions();
+      if (!wasOpen) {
+        card.classList.add('open');
+        setTimeout(function(){ scrollToId(card.id); }, 50);
+      }
+    });
+  });
+
+  // ── SIDEBAR LINKS ──
+  document.querySelectorAll('.sidebar-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var href = link.getAttribute('href');
+      var id = href ? href.replace('#','') : '';
+      if (!id) return;
+
+      // Close mobile sidebar
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+
+      var el = document.getElementById(id);
+      if (!el) return;
+
+      // If it's an accordion card, open it then scroll
+      if (el.classList.contains('acc-card')) {
+        closeAllAccordions();
+        el.classList.add('open');
+        setTimeout(function(){ scrollToId(id); }, 60);
+      } else {
+        // It might be a section that contains accordion cards — just scroll
+        scrollToId(id);
+      }
+    });
+  });
+
+  // ── HAMBURGER ──
+  document.getElementById('hamburger').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('overlay').classList.toggle('open');
+  });
+
+  // ── OVERLAY ──
+  document.getElementById('overlay').addEventListener('click', function() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('open');
+  });
+
+  // ── BACK TO TOP ──
+  document.getElementById('btt').addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ── SEARCH INPUT ──
+  var searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', function() { handleSearch(this.value); });
+  searchInput.addEventListener('blur', function() { setTimeout(closeSearch, 200); });
+
+  // ── SCROLL: progress + back-to-top + sidebar active ──
+  window.addEventListener('scroll', function() {
+    var doc = document.documentElement;
+    var pct = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight)) * 100;
+    document.getElementById('progress').style.width = pct + '%';
+    document.getElementById('btt').classList.toggle('show', window.scrollY > 400);
+    updateActiveSidebar();
+  });
+
+  // ── FADE IN OBSERVER ──
+  var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.fade-in').forEach(function(el) { observer.observe(el); });
+
+  // ── SIDEBAR ACTIVE HIGHLIGHT ──
+  function updateActiveSidebar() {
+    var current = '';
+    document.querySelectorAll('[id]').forEach(function(sec) {
+      if (window.scrollY >= sec.offsetTop - 130) current = sec.id;
+    });
+    document.querySelectorAll('.sidebar-link').forEach(function(l) {
+      l.classList.remove('active');
+      if (l.getAttribute('href') === '#' + current) l.classList.add('active');
+    });
+  }
+
+  // ── SEARCH DATA ──
+  var searchIndex = [
+    { title: 'What Is a Human Need?',        desc: 'Definition, characteristics, God-designed purpose',          id: 'what-is' },
+    { title: 'Why We Have Core Needs',        desc: "Purpose of human needs in God's design",                    id: 'why-needs' },
+    { title: 'Physical Needs',               desc: 'Food, water, rest, shelter, body as temple',                 id: 'need-physical' },
+    { title: 'Safety & Security',            desc: 'Protection, stability, trust in God, fear',                  id: 'need-safety' },
+    { title: 'Love & Belonging',             desc: 'Community, acceptance, loneliness, relationships',           id: 'need-love' },
+    { title: 'Significance & Purpose',       desc: 'Meaning, identity, calling, spiritual gifts, worth',         id: 'need-significance' },
+    { title: 'Inner Peace',                  desc: 'Rest for the soul, anxiety, Sabbath, Matthew 11:28',         id: 'need-peace' },
+    { title: 'Spiritual Connection',         desc: 'Salvation, prayer, eternal life, John 4, worship',           id: 'need-spiritual' },
+    { title: 'Bad Activities & Substances',  desc: 'Drugs, smoking, alcohol, pornography, gambling',             id: 'bad-activities' },
+    { title: 'Why People Turn to Addictions',desc: 'Trauma, emptiness, peer pressure, neuroscience',             id: 'why-addictions' },
+    { title: 'Negative Impact',              desc: 'Physical, mental, relational, financial, spiritual damage',  id: 'negative-impact' },
+    { title: 'Benefits of Healthy Fulfillment', desc: 'Flourishing, peace, purpose, abundance in Christ',       id: 'benefits' },
+    { title: 'Consequences of Wrong Paths',  desc: 'Long-term cost of counterfeit fulfillment',                  id: 'consequences' },
+    { title: 'Path to Restoration',          desc: 'Conviction, repentance, forgiveness, healing, mission',      id: 'restoration' },
+    { title: 'Sources & Disclaimer',         desc: 'References, Bible versions, crisis hotlines',                id: 'sources' },
+  ];
+
+  function handleSearch(val) {
+    var box = document.getElementById('search-results');
+    if (!val.trim()) { box.style.display = 'none'; return; }
+    var q = val.toLowerCase();
+    var hits = searchIndex.filter(function(i) {
+      return i.title.toLowerCase().includes(q) || i.desc.toLowerCase().includes(q);
+    });
+    if (!hits.length) {
+      box.innerHTML = '<div class="sr-item" style="color:var(--muted);">No results found</div>';
+      box.style.display = 'block';
+      return;
+    }
+    box.innerHTML = hits.map(function(h) {
+      return '<div class="sr-item" data-goto="' + h.id + '"><strong>' + h.title + '</strong>' + h.desc + '</div>';
+    }).join('');
+    box.querySelectorAll('.sr-item[data-goto]').forEach(function(item) {
+      item.addEventListener('click', function() { goTo(item.getAttribute('data-goto')); });
+    });
+    box.style.display = 'block';
+  }
+
+  function goTo(id) {
+    closeSearch();
+    var el = document.getElementById(id);
+    if (!el) return;
+    if (el.classList.contains('acc-card')) {
+      closeAllAccordions();
+      el.classList.add('open');
+      setTimeout(function(){ scrollToId(id); }, 60);
+    } else {
+      scrollToId(id);
+    }
+  }
+
+  function closeSearch() {
+    document.getElementById('search-results').style.display = 'none';
+    document.getElementById('search-input').value = '';
+  }
+
+}); // end DOMContentLoaded
+</script>
+</body>
+</html>
